@@ -443,7 +443,7 @@ class MagicDashboard(tk.Frame):
         self.star_header_label = tk.Label(self.star_group_frame, compound=tk.LEFT,
                                                   image=self.image_star,
                                                   borderwidth=3, highlightcolor="gray18", anchor=tk.W, width=30,
-                                                  text=" Celebrate", font=("Helvetica", 14, 'bold'),
+                                                  text=" Celebrate", font=("Helvetica", 12, 'bold'),
                                                   background=BOX_BACKGROUND_COLOR, foreground=BOX_FOREGROUND_COLOR)
         self.star_header_label.grid(row=0, columnspan=3, sticky=tk.NSEW)
         self.star_image_frame = tk.Frame(self.star_group_frame, width=200, height=200,
