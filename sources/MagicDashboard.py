@@ -102,10 +102,10 @@ class MagicDashboard(tk.Frame):
         self.image_participants = PhotoImage(file="../images/business-class.png")
         self.participants_header_label = tk.Label(self.participants_group_frame, compound=tk.LEFT, image=self.image_participants,
                                              borderwidth=3, highlightcolor="gray18", anchor=tk.W,
-                                             text=" Participants", font=("Helvetica", 14, 'bold'),
+                                             text=" Participants", font=("Helvetica", 12, 'bold'),
                                              background=BOX_BACKGROUND_COLOR, foreground=BOX_FOREGROUND_COLOR)
         self.participants_header_label.grid(row=0, columnspan=3, sticky=tk.NSEW)
-        self.participants_names_scroll_frame = tk.Frame(self.participants_group_frame, width=200, height=200,
+        self.participants_names_scroll_frame = tk.Frame(self.participants_group_frame,
                                                    background="gray18")
         self.participants_names_scroll_frame.rowconfigure(0, weight=1)
         self.participants_names_scroll_frame.columnconfigure(0, weight=1)
@@ -151,17 +151,17 @@ class MagicDashboard(tk.Frame):
         self.image_lessons = PhotoImage(file="../images/books.png")
         self.lessons_header_label = tk.Label(self.lessons_group_frame, compound=tk.LEFT, image=self.image_lessons,
                                              borderwidth=3, highlightcolor="gray18", anchor=tk.W, width=250,
-                                             text=" Lessons", font=("Helvetica", 14, 'bold'),
+                                             text=" Lessons", font=("Helvetica", 12, 'bold'),
                                              background=BOX_BACKGROUND_COLOR, foreground=BOX_FOREGROUND_COLOR)
         self.lessons_header_label.grid(row=0, columnspan=3, sticky=tk.NSEW)
-        self.lessons_image_scroll_frame = tk.Frame(self.lessons_group_frame, width=200, height=200,
+        self.lessons_image_scroll_frame = tk.Frame(self.lessons_group_frame,
                                                    background="gray18")
         self.lessons_image_scroll_frame.rowconfigure(0, weight=1)
         self.lessons_image_scroll_frame.columnconfigure(0, weight=1)
         self.lessons_image_scroll_frame.grid(row=1, columnspan=3, sticky=tk.NSEW)
-        self.image_list = DataCaptureDashboard.get_title_images()
-        title_image_index = 0
-        self.lesson_image_display_scroll(self.lessons_image_scroll_frame, self.image_list, title_image_index)
+        self.title_list = DataCaptureDashboard.get_title_names()
+        title_list_index = 0
+        self.lesson_image_display_scroll(self.lessons_image_scroll_frame, self.title_list, title_list_index)
         self.create_button = ttk.Button(self.lessons_group_frame, text="Create",
                                         width=6,
                                         command=self.create_lesson, style="dashboxbutton.TButton")
@@ -200,7 +200,7 @@ class MagicDashboard(tk.Frame):
         if (hasattr(self,"participants_names_display")) and self.participants_names_display is not None:
             self.participants_names_display.grid_forget()
         self.participants_names_display = tk.Label(frame, text=list[n_index][0],borderwidth=3, highlightcolor="gray18", width=20,
-                                             font=("Helvetica", 16, 'bold'),
+                                             font=("Helvetica", 14, 'bold'),
                                              background=BACKGROUND_COLOR, foreground=FOREGROUND_COLOR)
         self.participants_names_display.grid(row=0, column=0)
         if (n_index == len(list)-1):
@@ -214,20 +214,16 @@ class MagicDashboard(tk.Frame):
 
     def flash_image_display_scroll(self,frame,list,index):
         logger.info("Entering Flash Image Display")
-        lesson_folder = "Lesson"+str(list[index][0])
-        image_root = DataCaptureDashboard.lesson_root+os.path.sep+lesson_folder+os.path.sep+"images"
-        image_file = image_root+os.path.sep+list[index][1]
         try:
-            image_display = Image.open(image_file)
-            image_display = image_display.resize((100,100),Image.ANTIALIAS)
-            image_frame = ImageTk.PhotoImage(image_display)
-            self.flash_resized_lessons_list = []
-            self.flash_resized_lessons_list.append(image_frame)
-            self.flash_display_lessons = ttk.Label(frame,image=image_frame)
+            if hasattr(self,"flash_display_lessons"):
+                self.flash_display_lessons.grid_forget()
+            self.flash_display_lessons = ttk.Label(frame,text=list[index][1],wraplength=200,
+                                             font=("Helvetica", 14, 'bold'),
+                                             background=BACKGROUND_COLOR, foreground=FOREGROUND_COLOR)
             self.flash_display_lessons.grid(row=0,column=0)
         except:
-            logger.info("Image could not be found or opened")
-            logger.exception("Image Could not be opened - Flashcards Dashboard")
+            logger.info("Flash Term could not be found")
+            logger.exception("Flash Term not be opened - Flashcards Dashboard")
         if index == len(list) - 1:
             index =0
         else:
@@ -236,20 +232,17 @@ class MagicDashboard(tk.Frame):
 
     def lesson_image_display_scroll(self,frame,list,index):
         logger.info("Entering Lesson Image Display Scroll")
-        lesson_folder = "Lesson"+str(list[index][0])
-        image_root = DataCaptureDashboard.lesson_root+os.path.sep+lesson_folder+os.path.sep+"images"
-        image_file = image_root+os.path.sep+list[index][1]
+       
         try:
-            image_display = Image.open(image_file)
-            image_display = image_display.resize((100,100),Image.ANTIALIAS)
-            image_frame = ImageTk.PhotoImage(image_display)
-            self.image_resized_lessons_list = []
-            self.image_resized_lessons_list.append(image_frame)
-            self.image_display_lessons = ttk.Label(frame,image=image_frame)
+            if hasattr(self,"image_display_lessons"):
+                self.image_display_lessons.grid_forget()
+            self.image_display_lessons = ttk.Label(frame,text=list[index][1],wraplength=200,
+                                             font=("Helvetica", 14, 'bold'),
+                                             background=BACKGROUND_COLOR, foreground=FOREGROUND_COLOR)
             self.image_display_lessons.grid(row=0,column=0)
         except:
-            logger.info("Image could not be found or opened")
-            logger.exception("Lesson Image could not be opened")
+            logger.info("Title Lesson not be found or opened")
+            logger.exception("Lesson Title could not be opened")
         if index == len(list) - 1:
             index =0
         else:
@@ -325,7 +318,7 @@ class MagicDashboard(tk.Frame):
         self.tools_header_label = tk.Label(self.tools_group_frame, compound=tk.LEFT,
                                                   image=self.image_tools,
                                                   borderwidth=3, highlightcolor="gray18", anchor=tk.W, width=250,
-                                                  text=" Teacher Tools", font=("Helvetica", 14, 'bold'),
+                                                  text=" Teacher Tools", font=("Helvetica", 12, 'bold'),
                                                   background=BOX_BACKGROUND_COLOR, foreground=BOX_FOREGROUND_COLOR)
         self.tools_header_label.grid(row=0, columnspan=3, sticky=tk.NSEW)
 
@@ -383,17 +376,17 @@ class MagicDashboard(tk.Frame):
         self.flash_header_label = tk.Label(self.flash_group_frame, compound=tk.LEFT,
                                                   image=self.image_flash,
                                                   borderwidth=3, highlightcolor="gray18", anchor=tk.W, width=250,
-                                                  text=" Interactions", font=("Helvetica", 14, 'bold'),
+                                                  text=" Interactions", font=("Helvetica", 12, 'bold'),
                                                   background=BOX_BACKGROUND_COLOR, foreground=BOX_FOREGROUND_COLOR)
         self.flash_header_label.grid(row=0, columnspan=3, sticky=tk.NSEW)
-        self.flash_image_scroll_frame = tk.Frame(self.flash_group_frame, width=200, height=200,
+        self.flash_image_scroll_frame = tk.Frame(self.flash_group_frame,
                                                    background="gray18")
         self.flash_image_scroll_frame.rowconfigure(0, weight=1)
         self.flash_image_scroll_frame.columnconfigure(0, weight=1)
         self.flash_image_scroll_frame.grid(row=1, columnspan=3, sticky=tk.NSEW)
-        self.flash_list = DataCaptureDashboard.get_flash_images()
-        flash_image_index = 0
-        self.flash_image_display_scroll(self.flash_image_scroll_frame, self.flash_list, flash_image_index)
+        self.flash_list = DataCaptureDashboard.get_flash_names()
+        flash_list_index = 0
+        self.flash_image_display_scroll(self.flash_image_scroll_frame, self.flash_list, flash_list_index)
         self.play_button = ttk.Button(self.flash_group_frame, text="Start",
                                        width=7,
                                        command=self.launch_player, style="dashboxbutton.TButton")
@@ -442,11 +435,11 @@ class MagicDashboard(tk.Frame):
         self.image_star = PhotoImage(file="../images/cup_icon.png")
         self.star_header_label = tk.Label(self.star_group_frame, compound=tk.LEFT,
                                                   image=self.image_star,
-                                                  borderwidth=3, highlightcolor="gray18", anchor=tk.W, width=30,
+                                                  borderwidth=3, highlightcolor="gray18", anchor=tk.W, width=250,
                                                   text=" Celebrate", font=("Helvetica", 12, 'bold'),
                                                   background=BOX_BACKGROUND_COLOR, foreground=BOX_FOREGROUND_COLOR)
         self.star_header_label.grid(row=0, columnspan=3, sticky=tk.NSEW)
-        self.star_image_frame = tk.Frame(self.star_group_frame, width=200, height=200,
+        self.star_image_frame = tk.Frame(self.star_group_frame,
                                                    background="gray16")
         self.star_image_frame.rowconfigure(0, weight=1)
         self.star_image_frame.columnconfigure(0, weight=1)

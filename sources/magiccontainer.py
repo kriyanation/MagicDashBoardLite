@@ -56,6 +56,8 @@ class MagicApplication(tk.Toplevel):
         app = lesson_list_player.MagicLessonList(parent=self)
         app.geometry("350x600+50+50")
         self.wait_window(app)
+        if hasattr(self,"selected_lessons") is False:
+            self.destroy()
         print(self.selected_lessons)
         Data_Flow_Player.TEST_ROW=self.selected_lessons[0]
         Data_Flow_Player.imageroot = Data_Flow_Player.file_root+os.path.sep+"Lessons"+os.path.sep+"Lesson"+str(Data_Flow_Player.TEST_ROW)+os.path.sep+"images"+os.path.sep
@@ -69,7 +71,7 @@ class MagicApplication(tk.Toplevel):
         self.screen_width = self.winfo_screenwidth()
         self.screen_height = self.winfo_screenheight()
 
-        self.bframe = tk.Frame(self,background="deepskyblue4")
+        self.bframe = tk.Frame(self,background="deepskyblue4",width=100, height=50)
 
         self.nextimage = tk.PhotoImage(file="../images/next.png")
         self.nextbutton = ttk.Button(self.bframe,text="Next Step", image=self.nextimage,
@@ -96,13 +98,14 @@ class MagicApplication(tk.Toplevel):
 
     def show_title_page(self):
         logger.info("Player show_title_page")
+        self.backbutton.configure(state="disabled")
         if self.page_index == 1:
             self.factual_page.forget()
             self.bframe.pack_forget()
 
         self.TitlePage = magictitlepage.MagicTitlePage(self)
-        self.TitlePage.pack(side=tk.LEFT, anchor=tk.N, fill=tk.BOTH, expand=True)
-        self.bframe.pack(side=tk.BOTTOM, anchor=tk.NE, padx=5, pady=30)
+        self.TitlePage.pack(side=tk.LEFT, anchor=tk.N, fill=tk.BOTH,expand=True)
+        self.bframe.pack(side=tk.BOTTOM, anchor=tk.NE, padx=5, pady=20)
 
 
 
@@ -157,9 +160,11 @@ class MagicApplication(tk.Toplevel):
 
         self.independent_practice.pack(side=tk.LEFT, fill=tk.BOTH, expand=tk.TRUE, anchor=tk.N)
         self.bframe.pack(side=tk.BOTTOM, anchor=tk.SE, padx=5,pady=30)
+        self.nextbutton.configure(state="disabled")
 
     def show_experiment_page(self):
         logger.info("Player show_experiment_page")
+        self.nextbutton.configure(state="active")
         if self.page_index == 3:
             self.independent_practice.pack_forget()
         else:
@@ -174,6 +179,7 @@ class MagicApplication(tk.Toplevel):
 
     def show_factual_page(self,ap_mode):
         logger.info("Player show_factual_page")
+        self.backbutton.configure(state="active")
         if self.page_index == 2:
             self.application_experiment_page.forget()
         else:

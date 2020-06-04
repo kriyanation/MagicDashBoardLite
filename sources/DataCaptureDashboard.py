@@ -101,17 +101,17 @@ def get_badge_1_count():
         logger.info("Exception in retrieving lessons information")
         logger.info(traceback.print_exc())
 
-def get_title_images():
+def get_title_names():
     try:
         print (db)
         connection = sqlite3.connect(db)
         cur = connection.cursor()
-        sql = "select Lesson_ID, Title_Image from Magic_Science_Lessons"
+        sql = "select Lesson_ID, Lesson_Title from Magic_Science_Lessons"
         cur.execute(sql)
-        image_list = cur.fetchall()
+        title_list = cur.fetchall()
         connection.commit()
         connection.close()
-        return image_list
+        return title_list
     except:
         logger.info("Exception in retrieving image list information")
         logger.exception("Exception in Image List Retrieval")
@@ -132,13 +132,16 @@ def get_participants():
         logger.info("Exception in retrieving participant list information")
         logger.exception("Exception in participant List Retrieval")
 
-def get_flash_images():
-
-    connection = sqlite3.connect(db)
-    cur = connection.cursor()
-    sql = "select Lesson_ID,Factual_Image1 from Magic_Science_Lessons"
-    cur.execute(sql)
-    images = cur.fetchall()
-    connection.commit()
-    connection.close()
-    return images
+def get_flash_names():
+    try:
+        connection = sqlite3.connect(db)
+        cur = connection.cursor()
+        sql = "select Lesson_ID,Factual_Term1 from Magic_Science_Lessons"
+        cur.execute(sql)
+        terms = cur.fetchall()
+        connection.commit()
+        connection.close()
+        return terms
+    except:
+        logger.info("Exception in retrieving participant list information")
+        logger.exception("Exception in participant List Retrieval")
