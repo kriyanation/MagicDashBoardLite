@@ -367,6 +367,8 @@ class MagicExperimentPage(tk.Frame):
         self.canvas_experiment.bind('<B1-Motion>', "")
         self.canvas_experiment.bind('<ButtonRelease-1>', "")
         self.canvas_experiment.delete("all")
+        self.image_canvas_list.clear()
+        self.image_map.clear()
 
     def setup_canvas(self):
         logger.info("Experiment Page - setup_canvas")

@@ -29,7 +29,7 @@ handler = RotatingFileHandler("../MagicLogs.log", maxBytes=1 * 1024 * 1024,
 form = logging.Formatter("%(asctime)s- %(name)s: %(message)s")
 logger = logging.getLogger("MagicLogger")
 handler.setFormatter(form)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)
 logger.addHandler(handler)
 
 BACKGROUND_COLOR = "gray18"
@@ -199,8 +199,8 @@ class MagicDashboard(tk.Frame):
             return
         if (hasattr(self,"participants_names_display")) and self.participants_names_display is not None:
             self.participants_names_display.grid_forget()
-        self.participants_names_display = tk.Label(frame, text=list[n_index][0],borderwidth=3, highlightcolor="gray18", width=20,
-                                             font=("Helvetica", 14, 'bold'),
+        self.participants_names_display = tk.Label(frame, text=list[n_index][0],borderwidth=3, highlightcolor="gray18",
+                                             font=("Helvetica", 14, 'bold'),width=20,height=1,
                                              background=BACKGROUND_COLOR, foreground=FOREGROUND_COLOR)
         self.participants_names_display.grid(row=0, column=0)
         if (n_index == len(list)-1):
@@ -217,7 +217,7 @@ class MagicDashboard(tk.Frame):
         try:
             if hasattr(self,"flash_display_lessons"):
                 self.flash_display_lessons.grid_forget()
-            self.flash_display_lessons = ttk.Label(frame,text=list[index][1],wraplength=200,
+            self.flash_display_lessons = tk.Label(frame,text=list[index][1],width=20,height=1,
                                              font=("Helvetica", 14, 'bold'),
                                              background=BACKGROUND_COLOR, foreground=FOREGROUND_COLOR)
             self.flash_display_lessons.grid(row=0,column=0)
@@ -236,7 +236,7 @@ class MagicDashboard(tk.Frame):
         try:
             if hasattr(self,"image_display_lessons"):
                 self.image_display_lessons.grid_forget()
-            self.image_display_lessons = ttk.Label(frame,text=list[index][1],wraplength=200,
+            self.image_display_lessons = tk.Label(frame,text=list[index][1],width=20,height=1,
                                              font=("Helvetica", 14, 'bold'),
                                              background=BACKGROUND_COLOR, foreground=FOREGROUND_COLOR)
             self.image_display_lessons.grid(row=0,column=0)
@@ -267,7 +267,7 @@ class MagicDashboard(tk.Frame):
             if len(names) == 0:
                 return
             self.leader_data_label = tk.Label(frame,text=names[n_index][0],borderwidth=3, highlightcolor="gray16", width=25,
-                                             font=("Helvetica", 10, 'bold'),
+                                             font=("Helvetica", 10, 'bold'),height=1,
                                              background="gray16", foreground=FOREGROUND_COLOR)
             self.leader_data_label.grid(row=1,column=0)
             self.after(6000,self.show_names,frame,names,n_index+1)
