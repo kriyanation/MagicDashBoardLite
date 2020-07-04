@@ -204,7 +204,7 @@ class MagicDashboard(tk.Frame):
                                              background=BACKGROUND_COLOR, foreground=FOREGROUND_COLOR)
         self.participants_names_display.grid(row=0, column=0)
         if (n_index == len(list)-1):
-            n_index = 0
+            return
         else:
            n_index += 1
 
@@ -225,7 +225,7 @@ class MagicDashboard(tk.Frame):
             logger.info("Flash Term could not be found")
             logger.exception("Flash Term not be opened - Flashcards Dashboard")
         if index == len(list) - 1:
-            index =0
+            return
         else:
             index += 1
         self.after(10000,self.flash_image_display_scroll,frame,list,index)
@@ -244,7 +244,7 @@ class MagicDashboard(tk.Frame):
             logger.info("Title Lesson not be found or opened")
             logger.exception("Lesson Title could not be opened")
         if index == len(list) - 1:
-            index =0
+            return
         else:
             index += 1
         self.after(7000,self.lesson_image_display_scroll,frame,list,index)
@@ -263,7 +263,7 @@ class MagicDashboard(tk.Frame):
     def show_names(self,frame, names,n_index):
             logger.info("Entering show names for starts")
             if(n_index == len(names)):
-                n_index = 0
+                return
             if len(names) == 0:
                 return
             self.leader_data_label = tk.Label(frame,text=names[n_index][0],borderwidth=3, highlightcolor="gray16", width=25,
