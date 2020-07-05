@@ -80,7 +80,11 @@ class MagicTitlePage(tk.Frame):
 
     def new_window(self):
         #self.player.stop()
-        subprocess.Popen(['vlc', '-vvv', self.title_video_str])
+        if _isLinux:
+            subprocess.Popen(['vlc', '-vvv', self.title_video_str])
+        else:
+            os.startfile(self.title_video_str)
+        #subprocess.Popen(['vlc', '-vvv', self.title_video_str])
 
 
     def show_overview_image(self):
