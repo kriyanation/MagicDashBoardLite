@@ -81,7 +81,8 @@ class MagicTitlePage(tk.Frame):
     def new_window(self):
         #self.player.stop()
         if _isLinux:
-            subprocess.Popen(['vlc', '-vvv', self.title_video_str])
+            opener = "open" if sys.platform == "darwin" else "xdg-open"
+            subprocess.call([opener, self.title_video_str])
         else:
             os.startfile(self.title_video_str)
         #subprocess.Popen(['vlc', '-vvv', self.title_video_str])

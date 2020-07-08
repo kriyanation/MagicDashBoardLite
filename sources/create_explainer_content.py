@@ -404,6 +404,12 @@ class MagicWizard(tk.Toplevel):
 
     def show_individual_steps(self,selected_number):
         logger.info("Inside show_individual_steps of create widget")
+        if hasattr(self, "number_of_steps"):
+            self.data_collector["Application_Step_Description" + str(self.number_of_steps)] = eval("self.step" +
+                                                                                                   str(
+                                                                                                       self.number_of_steps) +
+                                                                                                   "_text_var").get()
+
         for widget in self.apply_activity_steps_frame.winfo_children():
             widget.destroy()
         self.data_collector['Application_Steps_Number'] = int(selected_number)
